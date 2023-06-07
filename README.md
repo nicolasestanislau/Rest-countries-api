@@ -27,6 +27,7 @@ Users should be able to:
 - Toggle the color scheme between light and dark mode
 
 ### Screenshot
+![Rest Country Api](https://github.com/sahilatahar/Rest-countries-api/assets/100127570/4002023f-f9e3-4f72-b18b-baf27ada9f00)
 
 ### Links
 
