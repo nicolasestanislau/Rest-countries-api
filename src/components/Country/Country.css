@@ -1,6 +1,6 @@
 .Country {
-    width: 300px;
-    height: 400px;
+    width: 250px;
+    height: 350px;
     background-color: var(--clr-element);
     box-shadow: var(--element-shadow);
     border-radius: var(--border-radius);
