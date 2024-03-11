@@ -1,56 +1,68 @@
-import React, { useState, useEffect } from 'react';
-import Navbar from './components/Navbar/Navbar';
-import Header from './components/Header/Header';
-import Countries from './components/Countries/Countries';
-import CountryDetails from './components/CountryDetails/CountryDetails';
+import React, { useState, useEffect } from "react";
+import Navbar from "./components/Navbar/Navbar";
+import Header from "./components/Header/Header";
+import Countries from "./components/Countries/Countries";
+import CountryDetails from "./components/CountryDetails/CountryDetails";
 
 function App() {
-
   const [countryData, setCountryData] = useState([]);
-  const [query, setQuery] = useState('');
-  const [filter, setFilter] = useState('All');
+  const [query, setQuery] = useState("");
+  const [filter, setFilter] = useState(false);
   const [filterData, setFilterData] = useState([]);
   const [data, setData] = useState({});
   const [isDetailPage, setIsDetailPage] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [exhibition, setExhibition] = useState(false);
 
+  const handleFilterChange = (newView) => {
+    // Callback function for view mode changes
+    setExhibition(newView);
+  };
   // Fetching countries data
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        let data = await fetch('https://restcountries.com/v2/all').then(response => response.json());
+        let data = await fetch("https://restcountries.com/v2/all").then(
+          (response) => response.json()
+        );
         setCountryData(data);
         setLoading(false);
       } catch {
         console.log("Error");
+        setError(true);
+        setLoading(false);
       }
-    }
+    };
     fetchData();
   }, []);
-
 
   // Filtering countries data when user search query
   useEffect(() => {
     if (query.length <= 0) {
       return;
     }
-    let filterData = countryData.filter((data) => data.name.toLowerCase().includes(query.toLowerCase()));
+    let filterData = countryData.filter((data) =>
+      data.name.toLowerCase().includes(query.toLowerCase())
+    );
     setFilterData(filterData);
+    console.log(filterData, "heloloolo ");
   }, [query]);
+
+  console.log("query ", query);
 
   // Filtering data when user choose region or change
   useEffect(() => {
-    if (filter == 'All') {
-      setFilterData(countryData);
+    if (exhibition) {
+      setExhibition(true);
     } else {
-      let filterData = countryData.filter((data) => data.region.toLowerCase() === filter.toLowerCase());
-      setFilterData(filterData);
+      setExhibition(false);
     }
-    setQuery('');
-  }, [filter]);
+    setQuery("");
+  }, [exhibition]);
 
-  // Putting page data based on data 
+  // Putting page data based on data
   useEffect(() => {
     if (Object.keys(data).length > 0) {
       setIsDetailPage(true);
@@ -63,15 +75,30 @@ function App() {
     <>
       {/* Showing Components based on conditions */}
       <Navbar />
-      {isDetailPage ?
-        Object.keys(data)?.length > 0 && <CountryDetails countryData={data} setData={setData} /> :
+      {isDetailPage ? (
+        Object.keys(data)?.length > 0 && (
+          <CountryDetails countryData={data} setData={setData} />
+        )
+      ) : (
         <>
-          <Header setQuery={setQuery} setFilter={setFilter} />
-          {<Countries query={query} filter={filter} countryData={countryData} filterData={filterData} setData={setData} loading={loading} />}
+          <Header setQuery={setQuery} onFilterChange={handleFilterChange} />
+          {
+            <Countries
+              key={query}
+              query={query}
+              filter={filter}
+              countryData={countryData}
+              exhibition={exhibition} // Pass exhibition state to Countries.js
+              filterData={filterData}
+              setData={setData}
+              loading={loading}
+              error={error}
+            />
+          }
         </>
-      }
+      )}
     </>
-  )
+  );
 }
 
-export default App
+export default App;

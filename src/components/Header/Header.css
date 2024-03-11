@@ -8,7 +8,7 @@
 }
 
 .input__container {
-    width: 500px;
+    width: auto;
     background: var(--clr-element);
     box-shadow: var(--element-shadow);
     border-radius: var(--border-radius);
@@ -18,7 +18,7 @@
     -o-border-radius: var(--border-radius);
     display: flex;
     align-items: center;
-    padding-right: 2rem;
+    padding-right: 1rem;
 }
 
 .input__container .icon {
@@ -29,7 +29,7 @@
 
 .country__input {
     width: 100%;
-    padding: 1rem 0;
+    padding: 1rem;
     border: none;
     outline: none;
     background: var(--clr-element);

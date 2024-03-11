@@ -1,6 +1,6 @@
 .Country {
     width: 250px;
-    height: 350px;
+    height: max-content;
     background-color: var(--clr-element);
     box-shadow: var(--element-shadow);
     border-radius: var(--border-radius);
@@ -9,6 +9,7 @@
     -ms-border-radius: var(--border-radius);
     -o-border-radius: var(--border-radius);
     cursor: pointer;
+    padding-bottom: 16px;
 }
 
 .card__image {
@@ -51,4 +52,8 @@
 .country__region,
 .country__capital {
     margin-bottom: 0.3rem;
+}
+
+.wrap-letter {
+    overflow-wrap: anywhere;
 }
